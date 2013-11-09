@@ -65,7 +65,6 @@
     "archive": {
         "exclude": [ "/build", "/phpdoc", "/*tmp*" ]
     },
-    "minimum-stability": "dev",
     "extra": {
         "views-functions": "src/app_views_fcts.php",
         "branch-alias": {
