@@ -1,0 +1,75 @@
+{
+    "name": "carte-blanche/carte-blanche",
+    "type": "project",
+    "description": "The CarteBlanche framework: simple, light-weight and easy to use",
+    "keywords": [ "mvc", "framework", "modular", "carte blanche" ],
+    "homepage": "http://github.com/php-carteblanche/carteblanche",
+    "license": "Apache-2.0",
+    "authors": [{
+        "name": "Les Ateliers Pierrot & contributors",
+        "email": "contact@ateliers-pierrot.fr",
+        "homepage": "http://www.ateliers-pierrot.fr/"
+    },{
+        "name": "Pierre Cassat",
+        "email": "piwi@ateliers-pierrot.fr",
+        "homepage": "http://github.com/pierowbmstr"
+    }],
+    "support": {
+        "issues": "http://github.com/php-carteblanche/carteblanche/issues",
+        "wiki": "http://github.com/php-carteblanche/carteblanche/wiki",
+        "email": "carte-blanche@ateliers-pierrot.fr"
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "psr/log": "dev-master",
+        "atelierspierrot/assets-manager": "1.*",
+        "atelierspierrot/templatengine": "1.*",
+        "atelierspierrot/assets-library": "1.*",
+        "carte-blanche/core": "dev-master",
+        "carte-blanche/installer": "dev-master",
+        "carte-blanche/tool-defaults": "dev-master",
+        "carte-blanche/tool-form": "dev-master",
+        "carte-blanche/bundle-crud": "dev-master",
+        "carte-blanche/bundle-cms": "dev-master",
+        "carte-blanche/bundle-gitviewer": "dev-master",
+        "carte-blanche/bundle-dirindexer": "dev-master",
+        "carte-blanche/bundle-galleries": "dev-master",
+        "carte-blanche/bundle-mailer": "dev-master",
+        "carte-blanche/bundle-unittest": "dev-master"
+    },
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/carteblanche" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/core" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/installer" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-crud" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-cms" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-gitviewer" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-dirindexer" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-mailer" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-unittest" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-galleries" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/tools" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/tool-form" }
+    ],
+    "autoload": {
+        "psr-0": { "App": "src" },
+        "classmap": [ "src/App/Controller" ]
+    },
+    "config": {
+        "vendor-dir": "src/vendor",
+        "bin-dir": "bin"
+    },
+    "scripts": {
+        "post-autoload-dump": "\\CarteBlancheInstaller\\CarteBlancheInstaller::postAutoloadDump"
+    },
+    "archive": {
+        "exclude": [ "/build", "/phpdoc", "/*tmp*" ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "views-functions": "src/app_views_fcts.php",
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+    }
+}

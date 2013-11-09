@@ -1,0 +1,34 @@
+/* Printer devices */
+body {
+	background: white; 
+	margin: 0px; padding: 0px;
+	font-size: 10pt; font-family: Lucida Grande, Verdana, Sans-serif; color: black; }
+
+.footer {display: none;}
+.content { margin: 0px; }
+
+/* Special classes for devices */
+.forprinters { display: block; visibility: visible; }
+.forscreens { display: none; visibility: hidden; }
+
+/* Typography */
+a:link, a:visited {
+	background: transparent;
+	font-weight: bold;
+	text-decoration: underline;
+	font-size: inherit;
+}
+a:link:after, a:visited:after {
+   content: " (" attr(href) ") ";
+   font-size: 90%;
+}
+/* non-absolute URLs are in the application */
+a[href^="/"]:after {
+	content: " (app page : " attr(href) ") ";
+}
+/* no-need to write javascript's HREF */
+a[href^="javascript"]:after {
+	content: "";
+}
+/* a thin background for print */
+thead tr, tfoot tr, td.overview_entry, tr.even, tr.checked_on { background: #eeeeee; }

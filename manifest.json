@@ -1,0 +1,24 @@
+{
+    "version": "0.0.1-dev",
+    "time": "2013-10-01",
+    "name": "carte-blanche/carte-blanche",
+    "title": "CarteBlanche",
+    "type": "framework",
+    "description": "The PHP MVC framework of Les Ateliers, simple, light-weight and easy to use for PHP developments.",
+    "homepage": "http://github.com/php-carteblanche/carteblanche",
+    "license": "Apache-2.0",
+    "authors": [{
+        "name": "Les Ateliers Pierrot & contributors",
+        "email": "contact@ateliers-pierrot.fr",
+        "homepage": "http://www.ateliers-pierrot.fr/"
+    },{
+        "name": "Pierre Cassat",
+        "email": "piwi@ateliers-pierrot.fr",
+        "homepage": "http://github.com/pierowbmstr"
+    }],
+    "support": {
+        "issues": "http://github.com/php-carteblanche/carteblanche/issues",
+        "wiki": "http://github.com/php-carteblanche/carteblanche/wiki",
+        "email": "carte-blanche@ateliers-pierrot.fr"
+    }
+}

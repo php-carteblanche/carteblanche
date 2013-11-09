@@ -1,0 +1,43 @@
+#########################################################################
+# CarteBlanche - PHP framework package                                  #
+# Copyleft (c) 2013 Pierre Cassat and contributors                      #
+# <www.ateliers-pierrot.fr> - <contact@ateliers-pierrot.fr>             #
+# License Apache-2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>  #
+# Sources <http://github.com/php-carteblanche/carteblanche>             #
+#########################################################################
+
+# no indexing
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>
+
+# follow symbolic links
+Options +FollowSymLinks
+
+# the rewrite URLs rules
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    #RewriteBase /
+
+    # no access to anything beginning with a dot
+    RewriteRule ^(.*/)?\.(.*)/ - [F]
+
+    # Explicitly disable rewriting for front controllers
+    RewriteRule ^(dev|index|webservice|dev_webservice).php - [L]
+
+    # setting the error pages
+    #ErrorDocument 404 /index.php?not_found
+    #ErrorDocument 403 /index.php?forbidden
+    #ErrorDocument 500 /index.php?error
+
+    # skip all this if the file or the dir exists
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # rebuild `xxx.php/myreq` to `xxx.php?myreq`
+    #RewriteRule ^([a-zA-Z0-9\-_]+)\.php\/(.*)$ $1.php?$2 [QSA,L]
+    # `index.php` will handle all requests
+    RewriteRule ^(.*)$ index.php?$1 [QSA,L]
+    #RewriteRule ^(.*)$ dev.php?$1 [QSA,L]
+    #RewriteRule ^(.*)$ webservice.php?$1 [QSA,L]
+    #RewriteRule ^(.*)$ dev_webservice.php?$1 [QSA,L]
+</IfModule>
