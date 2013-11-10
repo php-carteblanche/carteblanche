@@ -1,2 +1,0 @@
-DEFAULT_SYNC_RSYNC_OPTIONS="-avrlzh --exclude conf.php --exclude vendor "
-DEFAULT_SYNC_SERVER="-e ssh ateliersd@ftp.ateliers-pierrot.fr:~/www/home/"
