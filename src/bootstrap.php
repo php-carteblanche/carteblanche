@@ -21,7 +21,7 @@ if (defined('_CBSAFE_'.basename(__FILE__).'_LOADED')) return;
 /**
  * are we in CLI
  */
-@define('_CLI_CALL', (php_sapi_name() == 'cli'));
+@define('_CLI_CALL', (strtolower(php_sapi_name()) == 'cli'));
 
 /**
  * Useful links
@@ -292,6 +292,15 @@ if (!defined('_ROOTHTTP')) {
  * MUST NOT be apache accessible
  */
 @define('_APPCACHEDIR', _VARDIR.'app_cache'.DIRECTORY_SEPARATOR);
+
+/**
+ * _APPLOGSDIR : the application log files
+ *
+ * MUST exists
+ * MUST be writable
+ * MUST NOT be apache accessible
+ */
+@define('_APPLOGSDIR', _VARDIR.'log'.DIRECTORY_SEPARATOR);
 
 // -----------------------------
 // Web accessible sub-directories
