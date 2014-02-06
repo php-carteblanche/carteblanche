@@ -76,10 +76,20 @@ $user_config = array();
  */
 define('_ROOTFILE', basename(__FILE__));
 
-/**
- * The global application launcher
- */
-require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'app.php';
+// -----------------------------------
+// Get Composer autoloader
+// -----------------------------------
+
+$launcher = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'app.php';
+if (@file_exists($launcher)) {
+    require_once $launcher;
+} else {
+    die("Global application launcher not found! (searching for '".$launcher."')");
+}
+
+// -----------------------------------
+// PROCESS
+// -----------------------------------
 
 // the application
 $main = \CarteBlanche\App\Kernel::create(

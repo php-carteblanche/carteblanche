@@ -32,6 +32,10 @@ if (defined('_CBSAFE_'.basename(__FILE__).'_LOADED')) return;
  * The application mode : 'dev' or 'prod'
  */
 define('_APP_MODE', 'prod');
+//define('_STANDARD_PHP_ERRORS', true); // false by default
+//define('_STANDARD_PHP_EXCEPTIONS', true); // false by default
+//define('_NONE_ON_SHUTDOWN', true); // false by default
+//define('_STANDARD_PHP_ASSERTS', true); // false by default
 
 /**
  * A configuration INI file to use from 'config/'
@@ -72,10 +76,20 @@ $user_config = array();
  */
 define('_ROOTFILE', basename(__FILE__));
 
-/**
- * The global application launcher
- */
-require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'app.php';
+// -----------------------------------
+// Get Composer autoloader
+// -----------------------------------
+
+$launcher = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'app.php';
+if (@file_exists($launcher)) {
+    require_once $launcher;
+} else {
+    die("Global application launcher not found! (searching for '".$launcher."')");
+}
+
+// -----------------------------------
+// PROCESS
+// -----------------------------------
 
 // the application 
 $main = \CarteBlanche\App\Kernel::create(
