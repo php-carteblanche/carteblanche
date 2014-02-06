@@ -6,13 +6,57 @@
 # Sources <http://github.com/php-carteblanche/carteblanche>             #
 #########################################################################
 
+# try to extract relative path from DOCUMENT_ROOT
+<IfModule env_module>
+    SetEnv RelativePath %{REQUEST_URI}
+</IfModule>
+
 # no indexing
 <IfModule mod_autoindex.c>
-    Options -Indexes
+    Options All -Indexes
 </IfModule>
+
+# force directory index to PHP index
+<IfModule dir_module>
+    DirectoryIndex index.php index.html
+</IfModule>
+
+# default charset is UTF-8
+AddDefaultCharset utf-8
 
 # follow symbolic links
 Options +FollowSymLinks
+
+# setting authentication
+<IfModule auth>
+    AuthType Basic
+    AuthName "CarteBlanche Authentication"
+
+    # 'secure.php' will be secured by htpasswd if you define the good path here:
+    # see <http://httpd.apache.org/docs/2.0/mod/mod_auth.html>
+    AuthUserFile carteblanche/www/.htpasswd
+    AuthGroupFile /dev/null
+    <Files "secure.php">
+        AuthName "CarteBlanche Secured Authentication"
+        require valid-user
+    </Files>
+</IfModule>
+
+# setting the error pages
+ErrorDocument 403 /index.php?forbidden
+ErrorDocument 404 /index.php?not_found
+ErrorDocument 500 /index.php?error
+
+# php settings
+<IfModule mod_php5.c>
+    php_value upload_max_filesize 513M
+    php_value post_max_size 513M
+    php_value memory_limit 512M
+    php_value mbstring.func_overload 0
+    <IfModule env_module>
+        SetEnv htaccessWorking true
+    </IfModule>
+</IfModule>
 
 # the rewrite URLs rules
 <IfModule mod_rewrite.c>
@@ -23,21 +67,22 @@ Options +FollowSymLinks
     RewriteRule ^(.*/)?\.(.*)/ - [F]
 
     # Explicitly disable rewriting for front controllers
-    RewriteRule ^(dev|index|webservice|dev_webservice).php - [L]
+    RewriteRule ^(dev|index|webservice|dev_webservice|secure).php - [L]
 
-    # setting the error pages
-    #ErrorDocument 404 /index.php?not_found
-    #ErrorDocument 403 /index.php?forbidden
-    #ErrorDocument 500 /index.php?error
+    # special Apache environment variables debugger
+    Options +ExecCGI
+    AddHandler cgi-script .sh
+    RewriteRule ^apache-debug /WORK/carteblanche_test/www/cgi-scripts/apacheDebuger.sh [L]
 
     # skip all this if the file or the dir exists
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     # rebuild `xxx.php/myreq` to `xxx.php?myreq`
-    #RewriteRule ^([a-zA-Z0-9\-_]+)\.php\/(.*)$ $1.php?$2 [QSA,L]
+    RewriteRule ^([a-zA-Z0-9\-_]+)\.php\/(.*)$ $1.php?$2 [QSA,L]
     # `index.php` will handle all requests
     RewriteRule ^(.*)$ index.php?$1 [QSA,L]
     #RewriteRule ^(.*)$ dev.php?$1 [QSA,L]
     #RewriteRule ^(.*)$ webservice.php?$1 [QSA,L]
     #RewriteRule ^(.*)$ dev_webservice.php?$1 [QSA,L]
 </IfModule>
+
