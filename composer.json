@@ -67,7 +67,7 @@
     },
     "minimum-stability": "dev",
     "extra": {
-        "views-functions": "src/app_views_fcts.php",
+        "views-functions": "src/views_functions.php",
         "branch-alias": {
             "dev-master": "0.1-dev"
         }

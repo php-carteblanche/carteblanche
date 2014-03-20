@@ -1,18 +1,16 @@
 <?php
 /**
- * CarteBlanche - PHP framework package
- * Copyleft (c) 2013 Pierre Cassat and contributors
- * <www.ateliers-pierrot.fr> - <contact@ateliers-pierrot.fr>
- * License Apache-2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
- * Sources <http://github.com/php-carteblanche/carteblanche>
+ * This file is part of the CarteBlanche PHP framework
+ * (c) Pierre Cassat and contributors
+ * 
+ * Sources <http://github.com/php-carteblanche/tools>
+ *
+ * License Apache-2.0
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * Development user interface
- *
  */
-
-// Avoid over-loading
-if (defined('_CBSAFE_'.basename(__FILE__).'_LOADED')) return;
-@define('_CBSAFE_'.basename(__FILE__).'_LOADED', true);
 
 /**
  * Show errors at least initially
@@ -25,42 +23,11 @@ if (defined('_CBSAFE_'.basename(__FILE__).'_LOADED')) return;
 //@ini_set('display_errors','1'); @error_reporting(E_ALL & ~E_STRICT);
 @ini_set('display_errors','1'); @error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 
-// ----------------------------------------------------------------
-// ---------- USER CONFIG -----------------------------------------
-
-/**
- * The application mode : 'dev' or 'prod'
- */
-define('_APP_MODE', 'dev');
-//define('_STANDARD_PHP_ERRORS', true); // false by default
+//define('_STANDARD_PHP_ERRORS', true);     // false by default
 //define('_STANDARD_PHP_EXCEPTIONS', true); // false by default
-//define('_NONE_ON_SHUTDOWN', true); // false by default
-//define('_STANDARD_PHP_ASSERTS', true); // false by default
+//define('_NONE_ON_SHUTDOWN', true);        // false by default
+//define('_STANDARD_PHP_ASSERTS', true);    // false by default
 
-/**
- * A configuration INI file to use from 'config/'
- */
-$config_file = null;
-
-/**
- * A configuration array to use
- */
-$user_config = array();
-
-/**
- * The default timezone (default is "Europe/London" - UTC)
- */
-#$default_timezone = '';
-
-/**
- * minimum PHP required version
- */
-//define('_PHP_MINVERSION', 6);
-
-// ---------- END USER CONFIG -------------------------------------
-// ----------------------------------------------------------------
-// ---------- DO NOT EDIT BELOW -----------------------------------
-//
 // Here can be defined the following constants:
 //
 // - _ROOTFILE : the filename of the current web interface (current filename)
@@ -71,31 +38,43 @@ $user_config = array();
 // Note that these values will be defined after with default values by the application, except for
 // the _ROOTFILE, which MUST be defined on the current filename.
 
-/**
- * This file is our root file
- */
+// _ROOTFILE : the filename handling the current request
 define('_ROOTFILE', basename(__FILE__));
 
-// -----------------------------------
-// Get Composer autoloader
-// -----------------------------------
+// _ROOTPATH : the dirname of the whole CarteBlanche installation
+define('_ROOTPATH', realpath(dirname(__FILE__)) == DIRECTORY_SEPARATOR ?
+    realpath('..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR
+    :
+    realpath(dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR
+);
 
-$launcher = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'src'.DIRECTORY_SEPARATOR.'app.php';
+// _ROOTHTTP : the base URL to use to construct the application routes (found from the current domain and path URL)
+if (!defined('_ROOTHTTP')) {
+    $_roothttp = '';
+    if (isset($_SERVER['HTTP_HOST']) && !empty($_SERVER['HTTP_HOST'])) {
+        $_roothttp = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS'])!='off') ? 'https://' : 'http://';
+        $_roothttp .= $_SERVER['HTTP_HOST'];
+    }
+    if (isset($_SERVER['PHP_SELF']) && !empty($_SERVER['PHP_SELF'])) {
+        $_roothttp .= str_replace( '\\', '/', dirname($_SERVER['PHP_SELF']));
+    }
+    if (strlen($_roothttp)>0 && substr($_roothttp, -1) != '/') $_roothttp .= '/';
+    define('_ROOTHTTP', $_roothttp);
+}
+
+// Composer autoloader
+$launcher = __DIR__.'/../src/vendor/autoload.php';
 if (@file_exists($launcher)) {
     require_once $launcher;
 } else {
-    die("Global application launcher not found! (searching for '".$launcher."')");
+    die("You need to run to install your application using Composer!");
 }
-
-// -----------------------------------
-// PROCESS
-// -----------------------------------
 
 // the application
 $main = \CarteBlanche\App\Kernel::create(
-    isset($config_file) ? $config_file : null,
-    isset($user_config) ? $user_config : null,
-    _APP_MODE
+    null,   // a configuration INI file
+    null,   // user options array
+    'dev'   // the application mode: 'dev' or 'prod'
 );
 if ($main) $main
 //    ->handles(new \App\Request)
