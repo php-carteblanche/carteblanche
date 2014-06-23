@@ -78,13 +78,11 @@ $main = \CarteBlanche\App\Kernel::create(
     'dev'   // the application mode: 'dev' or 'prod'
 );
 if ($main) {
-	$main->getContainer()->get('config')->set(
-	    array('routing.mvc.default_controller'=>'WebserviceController'), true
-	);
-	$main->distribute();
+    $main->getContainer()->get('config')->set(
+        array('routing.mvc.default_controller'=>'WebserviceController'), true
+    );
+    $main->distribute();
 } 
 else trigger_error("Main application kernel can't be loaded!", E_USER_ERROR);
-
-// Endfile
 
 // Endfile

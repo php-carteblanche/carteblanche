@@ -9,7 +9,7 @@ CarteBlanche - Documentation
 
 **CarteBlanche** is a PHP framework constructed as an MVC application ready to work. It uses
 a core library of classes that are enough to make it work and allows to develop some
-extra features quickly in this environement.
+extra features quickly in this environment.
 
 It holds `bundles`, some packages to execute a feature, that could be exported after development
 as a standalone PHP package (if so) ; it also proposes a set of `tools`, pretty simple
@@ -22,7 +22,7 @@ The rendering is integrated in a ready-to-use (but very simple) global template 
 
 ### Installation
 
-The package to install is [carteblanche/carteblanche](https://github.com/php-carteblanche/carteblanche).
+The package to install is [carteblanche/carteblanche](http://github.com/php-carteblanche/carteblanche).
 
 Once you have downloaded or cloned the package sources, the installation is quite simple. It requires
 [Composer](http://getcomposer.org/) to install its dependencies. Please see the "Dependencies" section
@@ -31,7 +31,7 @@ below for more informations about Composer, what it is and what it does.
 Installation steps:
 
 1.   put the whole CarteBlanche directory in your web-server files system ; you can download
-     an archive at <https://github.com/php-carteblanche/carteblanche/archive/master.tar.gz>
+     an archive at <http://github.com/php-carteblanche/carteblanche/archive/master.tar.gz>
      or clone GIT sources running in a command line terminal:
 
         ~$ git clone --recursive https://github.com/php-carteblanche/carteblanche path/to/CarteBlanche
@@ -55,7 +55,7 @@ Installation steps:
 ### Usage
 
 As in many other frameworks, the PHP and binary sources are separated from the assets, web
-accessible stuffs. Basically, all the web files (javascripts, css, images and other assets)
+accessible stuff. Basically, all the web files (javascript, css, images and other assets)
 are stored in the `www/` sub-directory. All other files may NOT be web-accessible. The PHP
 sources are mostly stored in the `src/` sub-directory.
 
@@ -81,10 +81,10 @@ To build a comprehensive and maintainable code, we try to follow the coding stan
 naming rules most commonly in use:
 
 -   the [PEAR coding standards](http://pear.php.net/manual/en/standards.php)
--   the [PHP Framework Interoperability Group standards](https://github.com/php-fig/fig-standards).
+-   the [PHP Framework Interoperability Group standards](http://github.com/php-fig/fig-standards).
 
 Knowing that, all classes of the framework are named and organized in an architecture to follow the 
-usage of the [standard SplClassLoader](https://gist.github.com/jwage/221634).
+usage of the [standard SplClassLoader](http://gist.github.com/jwage/221634).
 
 ### Dependencies
 
@@ -99,7 +99,7 @@ To install all PHP packages for development, just run:
     // or, using Composer itself
     ~$ composer install --dev
 
-A PHP documentation tool is available generating it with [Sami](https://github.com/fabpot/Sami). To build or
+A PHP documentation tool is available generating it with [Sami](http://github.com/fabpot/Sami). To build or
 re-build it, you will need to run Composer in development environment (*just as shown above*) and then run:
 
     ~$ ./bin/build.sh render-doc
@@ -111,9 +111,9 @@ re-build it, you will need to run Composer in development environment (*just as 
 
 >    CarteBlanche - PHP framework package
 
->    https://github.com/php-carteblanche/carteblanche
+>    http://github.com/php-carteblanche/carteblanche
 
->    Copyleft 2013, Pierre Cassat and contributors
+>    Copyright 2013-2014, Pierre Cassat and contributors
 
 >    Licensed under the Apache 2.0 license.
 

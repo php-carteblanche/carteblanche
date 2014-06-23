@@ -83,8 +83,8 @@ if ($main) {
     if (false==$main->isCli()) {
         die('This file is for command line use only!');
     }
-	$main->getContainer()->get('response')->setContentType('text');
-	$main->distribute();
+    $main->getContainer()->get('response')->setContentType('text');
+    $main->distribute();
 } 
 else trigger_error("Main application kernel can't be loaded!", E_USER_ERROR);
 

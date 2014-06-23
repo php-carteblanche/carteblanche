@@ -1,59 +1,59 @@
 /* Global */
 body {
-	background-color: #fff;margin: 40px;
-	font-size: 0.9em; font-family: Lucida Grande, Verdana, Sans-serif; color: #4F5155; }
-#page_header  { clear: both; display: block; position: relative; }
-#page_menu    { clear: both; display: block; position: relative; }
-#page_content { clear: both; display: block; position: relative; }
-#page_footer  { clear: both; display: block; position: relative; }
-.content { margin: 1em; }
-.footer {color: #444; padding-top: 12px; border-top: 1px solid #D0D0D0;font-size: .76em;margin: 1em 0;}
+    background-color: #fff;margin: 40px;
+    font-size: 0.9em; font-family: Lucida Grande, Verdana, Sans-serif; color: #4F5155; }
+#page_header    { clear: both; display: block; position: relative; }
+#page_menu      { clear: both; display: block; position: relative; }
+#page_content   { clear: both; display: block; position: relative; }
+#page_footer    { clear: both; display: block; position: relative; }
+.content        { margin: 1em; }
+.footer         {color: #444; padding-top: 12px; border-top: 1px solid #D0D0D0;font-size: .76em;margin: 1em 0;}
 
 /* Special classes for devices */
-.forprinters { display: none; visibility: hidden; }
-.forscreens { display: block; visibility: visible; }
+.forprinters    { display: none; visibility: hidden; }
+.forscreens     { display: block; visibility: visible; }
 
 /* Typography */
-a 				{color: #003399; font-weight: normal; font-size: inherit; }
-a:hover			{color: #7A63AA; }
-h1,h2,h3 		{color: #444; border-bottom: 1px dotted #D0D0D0;}
-h1 				{font-size: 1.6em;font-weight: bold;margin: 24px 0 2px 0;padding: 5px 0 6px 0;}
-h2 				{font-size: 1.4em;font-weight: bold;margin: 24px 40% 2px 0;padding: 5px 0 6px 0;}
-h3 				{font-size: 1.2em;font-weight: bold;margin-right: 40%;}
-div, span, p	{ padding: 0; margin: 0; }
-img 			{ border: 0; margin: .2em; }
+a                {color: #003399; font-weight: normal; font-size: inherit; }
+a:hover          {color: #7A63AA; }
+h1,h2,h3         {color: #444; border-bottom: 1px dotted #D0D0D0;}
+h1               {font-size: 1.6em;font-weight: bold;margin: 24px 0 2px 0;padding: 5px 0 6px 0;}
+h2               {font-size: 1.4em;font-weight: bold;margin: 24px 40% 2px 0;padding: 5px 0 6px 0;}
+h3               {font-size: 1.2em;font-weight: bold;margin-right: 40%;}
+div, span, p     { padding: 0; margin: 0; }
+img              { border: 0; margin: .2em; }
 p, blockquote, ul, ol, dl, li, table, pre
-             	{ margin: 1em 0; font-size: 1em; }
+                 { margin: 1em 0; font-size: 1em; }
 h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p
-             	{ margin-top: 0; text-indent:1em; }
-code, cite, pre { font-family: Monaco, Verdana, Sans-serif; background-color: #f9f9f9; border: 1px solid #D0D0D0; color: #002166; font-size: 12px; text-indent:0; }
-code            { padding: 0 .6em; display: inline; margin:0; }
-cite            { font-size: .9em; display: block; margin: 1em; padding: 0; padding-left: 2em; }
-blockquote      { font-size: .9em; display: block; margin: 1em; padding: 0; padding-left: 2em; border: none; border-left: 2px solid #ddd; }
-pre             { font-size: 12px; display: block; margin: 1em 0; padding: .6em; overflow: auto; max-height: 320px; }
-pre code        { border: none; text-indent:0; padding: 0; }
-pre, blockquote {
-	overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not needed in Firefox 3 */
-	white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
-	white-space: -pre-wrap; /* Opera 4-6 */
-	white-space: -o-pre-wrap; /* Opera 7 */ 
-	word-wrap: break-word; /* Internet Explorer 5.5+ */
+                 { margin-top: 0; text-indent:1em; }
+code, cite, pre  { font-family: Monaco, Verdana, Sans-serif; background-color: #f9f9f9; border: 1px solid #D0D0D0; color: #002166; font-size: 12px; text-indent:0; }
+code             { padding: 0 .6em; display: inline; margin:0; }
+cite             { font-size: .9em; display: block; margin: 1em; padding: 0; padding-left: 2em; }
+blockquote       { font-size: .9em; display: block; margin: 1em; padding: 0; padding-left: 2em; border: none; border-left: 2px solid #ddd; }
+pre              { font-size: 12px; display: block; margin: 1em 0; padding: .6em; overflow: auto; max-height: 320px; }
+pre code         { border: none; text-indent:0; padding: 0; }
+pre, blockquote  {
+    overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not needed in Firefox 3 */
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */ 
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
-abbr 			{ cursor: help; }
-ol, ul       	{ padding:0; margin: 0; margin-left: 15px; }
-li           	{ padding:0; margin: 0; padding-left: 5px; margin-bottom: 8px; text-indent: 0; }
-ul li        	{ margin-left: 15px; list-style-type: disc; }
-ol li        	{ margin-left: 15px; }
-table 			{ margin: 1em; border-collapse:collapse; border: none; width: auto; }
-th 				{ padding: 6px; text-align: left; }
-td 				{ padding: 6px; }
+abbr             { cursor: help; }
+ol, ul           { padding:0; margin: 0; margin-left: 15px; }
+li               { padding:0; margin: 0; padding-left: 5px; margin-bottom: 8px; text-indent: 0; }
+ul li            { margin-left: 15px; list-style-type: disc; }
+ol li            { margin-left: 15px; }
+table            { margin: 1em; border-collapse:collapse; border: none; width: auto; }
+th               { padding: 6px; text-align: left; }
+td               { padding: 6px; }
 thead td, thead td a, thead th, thead th a 
-				{ font-size: .86em; font-weight: bold; }
+                { font-size: .86em; font-weight: bold; }
 tfoot td, tfoot td a, tfoot th, tfoot th a 
-				{ font-size: .86em; font-weight: normal; }
-tbody td 		{ font-size: .9em; }
+                { font-size: .86em; font-weight: normal; }
+tbody td        { font-size: .9em; }
 thead tr, tfoot tr 
-				{ background-color: #ddd; }
+                { background-color: #ddd; }
 td.overview_entry { border-top: 1px dotted #ddd; }
 tr.odd { background-color: #fff; }
 tr.even { background-color: #eee; }
@@ -109,8 +109,8 @@ table.profiler_table td { vertical-align: top; }
 .debugger { font-family: Arial, Helvetica, sans-serif; }
 .back_link { font-size: .8em; }
 .debugger .debug_message { 
-	margin: 1em 3em; border: 2px solid red; padding: 1em; 
-	-moz-border-radius: 6px; -webkit-border-radius: 6px;
+    margin: 1em 3em; border: 2px solid red; padding: 1em; 
+    -moz-border-radius: 6px; -webkit-border-radius: 6px;
 }
 .debugger .error_types_group { margin-bottom: 1em; }
 .debugger li.php_trace_item { letter-spacing: .5pt; }
@@ -151,11 +151,11 @@ table.ds_box td { padding: 2px; }
 .ds_box { background-color: #FFF; border: 1px solid #000; position: absolute; z-index: 32767; }
 .ds_tbl { background-color: #FFF; }
 .ds_head { background-color: #333; color: #FFF; font-family: Arial, Helvetica, sans-serif; 
-	font-size: 13px; font-weight: bold; text-align: center; letter-spacing: 2px; }
+    font-size: 13px; font-weight: bold; text-align: center; letter-spacing: 2px; }
 .ds_subhead { background-color: #CCC; color: #000; font-size: 12px; font-weight: bold; 
-	text-align: center; font-family: Arial, Helvetica, sans-serif; width: 32px; }
+    text-align: center; font-family: Arial, Helvetica, sans-serif; width: 32px; }
 .ds_cell { background-color: #EEE; color: #000; font-size: 13px; text-align: center; 
-	font-family: Arial, Helvetica, sans-serif; padding: 5px; cursor: pointer; }
+    font-family: Arial, Helvetica, sans-serif; padding: 5px; cursor: pointer; }
 .ds_cell:hover { background-color: #F3F3F3; } /* This hover code won't work for IE */
 
 /* Search-box */
