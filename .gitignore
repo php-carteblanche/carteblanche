@@ -1,31 +1,3 @@
-### Hack to allow keeping an empty directory
-!.gitkeep
-
-### OS & software files
-.DS_Store
-.AppleDouble
-.LSOverride
-.Spotlight-V100
-.Trashes
-Icon
-._*
-*~
-*~lock*
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# IDE files
-# to be commented to include them in a project
-.project
-.buildpath
-.idea/*
-
-### Les Ateliers specifics
-
-# the composer lock file
-composer.lock
-
 # any "tmp*" file or dir anywhere
 *tmp*
 
@@ -33,23 +5,16 @@ composer.lock
 user/*
 */user/*
 
-# the external packages installed by Composer, Template Engine or others
+# the composer stuff
 vendor/*
 */vendor/*
+composer.lock
 
-### Les Ateliers branches
-
-# the documentation, that is NOT under version-control by default
 # this may be commented on the "dev" branch
 phpdoc/*
 
-# for developments ...
 # this may be commented on the "wip" branch
 dev/*
-build/*
-src.*/*
-
-### Carte Blanche specifics
 
 # third-party links & install
 .build.conf
@@ -57,10 +22,16 @@ config/bootstrap.php
 src/bundles/*
 src/tools/*
 var/*
-bin/markdown_extended
-bin/sami.php
+bin/*
+!bin/build.sh
+!bin/console
+!bin/dev_console
+!bin/piwi-bash-library/
 
 # usage
 www/indexer*
 www/galleries*
 www/photos*
+
+# hack to allow keeping an empty directory
+!.gitkeep
