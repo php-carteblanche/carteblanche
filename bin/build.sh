@@ -16,7 +16,7 @@
 # 
 
 ######## Inclusion of the lib
-LIBFILE="`dirname $0`/piwi-bash-library/piwi-bash-library.sh"
+LIBFILE="`dirname $0`/piwi-bash-library/piwi-bash-library.bash"
 if [ -f "$LIBFILE" ]; then source "$LIBFILE"; else
     PADDER=$(printf '%0.1s' "#"{1..1000})
     printf "\n### %*.*s\n    %s\n    %s\n%*.*s\n\n" 0 $(($(tput cols)-4)) "ERROR! $PADDER" \
