@@ -71,6 +71,9 @@ ErrorDocument 500 /index.php?error
     # Explicitly disable rewriting for front controllers
     RewriteRule ^(dev|index|webservice|dev_webservice|secure).php - [L]
 
+    # Explicitly disable rewriting for assets
+    RewriteRule ^(assets\/|vendor\/) - [L]
+
     # special Apache environment variables debugger
     Options +ExecCGI
     AddHandler cgi-script .sh
