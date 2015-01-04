@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # This file is part of the CarteBlanche PHP framework.
 #
@@ -16,12 +16,12 @@
 # 
 
 ######## Inclusion of the lib
-LIBFILE="`dirname $0`/piwi-bash-library/piwi-bash-library.bash"
+LIBFILE="$(dirname $0)/piwi-bash-library/piwi-bash-library.bash"
 if [ -f "$LIBFILE" ]; then source "$LIBFILE"; else
     PADDER=$(printf '%0.1s' "#"{1..1000})
     printf "\n### %*.*s\n    %s\n    %s\n%*.*s\n\n" 0 $(($(tput cols)-4)) "ERROR! $PADDER" \
         "Unable to find required library file '$LIBFILE'!" \
-        "Sent in '$0' line '${LINENO}' by '`whoami`' - pwd is '`pwd`'" \
+        "Sent in '$0' line '${LINENO}' by '$(whoami)' - pwd is '$(pwd)'" \
         0 $(tput cols) "$PADDER";
     exit 1
 fi
@@ -32,7 +32,7 @@ fi
 export PROJECT PROJECT_MANIFEST CONFIGFILE ARG_VAR ARG_VAL BUILD_DIR
 declare -rax CONFIGENTRIES=(PHPBIN COMPOSERBIN SAMIPATH)
 declare -rax PROJECTREQUIREDDIRS=('config' 'i18n' 'var')
-declare -rax PROJECTWRITABLEDIRS=('www/tmp')
+declare -rax PROJECTWRITABLEDIRS=('config' 'i18n' 'var' 'www/tmp')
 
 export CONFIGNAME='.build.conf'
 export BUILDNAME='build/'
@@ -40,10 +40,10 @@ export SAMIBIN="src/vendor/sami/sami/sami.php"
 export COMPOSER_DOWNLOAD='https://getcomposer.org/installer'
 export CARTEBLANCHE_REPO='https://github.com/php-carteblanche/carteblanche'
 
-export PHPBIN=$(which php)
-export COMPOSERBIN=$(which composer)
+export PHPBIN=$(command -v php)
+export COMPOSERBIN=$(command -v composer)
 if [ -z $COMPOSERBIN ]; then COMPOSERBIN='${BUILDNAME}composer.phar'; fi
-export GITCMD=$(which git)
+export GITCMD=$(command -v git)
 export SAMIPATH=''
 export SETTING='no-dev'
 
@@ -51,41 +51,51 @@ MANPAGE_NODEPEDENCY=true
 NAME="Carte Blanche builder"
 VERSION="0.0.1-dev"
 DESCRIPTION="This script is a helper to build, install or update a Carte Blanche package. By default any required binary will be installed in a '${BUILDNAME}' directory\n\
-\tat the poject root but you can use options to define values to fit your system. Any value define in a '${CONFIGNAME}' file will over-write defaults.\n\
-\n\
-\t<bold><underline>Available actions:</underline></bold> \n\
-\t<bold><${COLOR_INFO}>version</${COLOR_INFO}></bold>\t\tget current package informations \n\
-\t<bold><${COLOR_INFO}>changelog</${COLOR_INFO}></bold>\tgit current package changelog history (if possible - requires 'git' binaries) \n\
-\t<bold><${COLOR_INFO}>install</${COLOR_INFO}></bold>\t\twill launch 'composer install' ; use the 'set' option to define a specific install ; default set is '${SETTING}' \n\
-\t<bold><${COLOR_INFO}>update</${COLOR_INFO}></bold>\t\twill launch 'composer update' ; use the 'set' option to define a specific install ; default set is '${SETTING}' \n\
-\t<bold><${COLOR_INFO}>self-update</${COLOR_INFO}></bold>\twill try to update your CarteBlanche root installation (not the dependencies) to last update \n\
-\t<bold><${COLOR_INFO}>reset</${COLOR_INFO}></bold>\t\twill clean all third-party files and refresh composer's cache \n\
-\t<bold><${COLOR_INFO}>rebuild</${COLOR_INFO}></bold>\t\twill process actions 'reset' then 'install' \n\
-\t<bold><${COLOR_INFO}>dump-autoload</${COLOR_INFO}></bold>\twill run command 'composer dump-autoload' and rebuild the package autoloaders files \n\
-\t<bold><${COLOR_INFO}>update-modules</${COLOR_INFO}></bold>\twill update all project git-submodules (requires 'git' binaries) \n\
-\t<bold><${COLOR_INFO}>full-update</${COLOR_INFO}></bold>\tmake a Composer and Git-submodules update \n\
-\t<bold><${COLOR_INFO}>render-doc</${COLOR_INFO}></bold>\twill render the Sami documentation ; use the 'set' option to define a 'full' install ; default set is empty ; this requires the Sami dev package \n\
-\t<bold><${COLOR_INFO}>update-doc</${COLOR_INFO}></bold>\twill update the Sami documentation ; use the 'set' option to define a 'full' install ; default set is empty ; this requires the Sami dev package \n\
-\t<bold><${COLOR_INFO}>clean</${COLOR_INFO}></bold>\t\twill clean all temporary Carte Blanche files (cached files)\n\
-\t<bold><${COLOR_INFO}>config</${COLOR_INFO}></bold>\t\twork with builder config: if a 'var' argument is set, read the value of the configuration entry ; if a 'var' & 'val' arguments are set, \n\
-\t\t\tdefine the value of the configuration entry ; if no argument 'var', read the entire config ; default config file is '${CONFIGNAME}'\n\
-\t<bold><${COLOR_INFO}>update-config</${COLOR_INFO}></bold>\tupdate builder configuration with defined binaries values (for Composer, PHP and Sami) \n\
-\t<bold><${COLOR_INFO}>clear-config</${COLOR_INFO}></bold>\tclear current builder configuration";
-SYNOPSIS="~\$ <bold>${0}</bold>  -[<underline>COMMON OPTIONS</underline>]  --[<underline>SCRIPT OPTIONS</underline>=<underline>VALUE</underline>]  <underline>ACTION</underline>  --";
-OPTIONS="<bold>--set=SET</bold>\t\tSet an optional argument used for some actions \n\
-\t<bold>--var=VARNAME</bold>\t\tSet a variable name (for config entries) \n\
-\t<bold>--val=VALUE</bold>\t\tSet the value of the optional 'var' argument (for config entries) \n\
-\t<bold>--php=PATH</bold>\t\tPath of the PHP binary to use (default is '${PHPBIN}') \n\
-\t<bold>--composer=PATH</bold>\t\tPath of the Composer script to use (default is '${COMPOSERBIN}') \n\
-\t<bold>--sami=PATH</bold>\t\tPath of the Sami binary to use (default is '${SAMIBIN}') \n\
-\t<bold>--config=PATH</bold>\t\tPath of a builder configuration file \n\
+at the poject root but you can use options to define values to fit your system. Any value define in a '${CONFIGNAME}' file will over-write defaults.";
+OPTIONS_MANPAGE="\n\
+<bold>Available actions:</bold> \n\
+\t<bold><${COLOR_INFO}>version</${COLOR_INFO}></bold>\t\t\tget current package informations \n\
+\t<bold><${COLOR_INFO}>changelog</${COLOR_INFO}></bold>\t\tgit current package changelog history (if possible - requires 'git' binaries) \n\
+\t<bold><${COLOR_INFO}>install</${COLOR_INFO}></bold>\t\t\twill launch 'composer install' ; use the 'set' option to define a specific install ; default set is '${SETTING}' \n\
+\t<bold><${COLOR_INFO}>update</${COLOR_INFO}></bold>\t\t\twill launch 'composer update' ; use the 'set' option to define a specific install ; default set is '${SETTING}' \n\
+\t<bold><${COLOR_INFO}>self-update</${COLOR_INFO}></bold>\t\twill try to update your CarteBlanche root installation (not the dependencies) to last update \n\
+\t<bold><${COLOR_INFO}>reset</${COLOR_INFO}></bold>\t\t\twill clean all third-party files and refresh composer's cache \n\
+\t<bold><${COLOR_INFO}>rebuild</${COLOR_INFO}></bold>\t\t\twill process actions 'reset' then 'install' \n\
+\t<bold><${COLOR_INFO}>dump-autoload</${COLOR_INFO}></bold>\t\twill run command 'composer dump-autoload' and rebuild the package autoloaders files \n\
+\t<bold><${COLOR_INFO}>update-modules</${COLOR_INFO}></bold>\t\twill update all project git-submodules (requires 'git' binaries) \n\
+\t<bold><${COLOR_INFO}>full-update</${COLOR_INFO}></bold>\t\tmake a Composer and Git-submodules update \n\
+\t<bold><${COLOR_INFO}>render-doc</${COLOR_INFO}></bold>\t\twill render the Sami documentation ; use the 'set' option to define a 'full' install ; default set is empty ; this requires the Sami dev package \n\
+\t<bold><${COLOR_INFO}>update-doc</${COLOR_INFO}></bold>\t\twill update the Sami documentation ; use the 'set' option to define a 'full' install ; default set is empty ; this requires the Sami dev package \n\
+\t<bold><${COLOR_INFO}>clean</${COLOR_INFO}></bold>\t\t\twill clean all temporary Carte Blanche files (cached files)\n\
+\t<bold><${COLOR_INFO}>config</${COLOR_INFO}></bold>\t\t\twork with builder config: if a 'var' argument is set, read the value of the configuration entry ; if a 'var' & 'val' arguments are set, \n\
+\t\t\t\tdefine the value of the configuration entry ; if no argument 'var', read the entire config ; default config file is '${CONFIGNAME}'\n\
+\t<bold><${COLOR_INFO}>update-config</${COLOR_INFO}></bold>\t\tupdate builder configuration with defined binaries values (for Composer, PHP and Sami) \n\
+\t<bold><${COLOR_INFO}>clear-config</${COLOR_INFO}></bold>\t\tclear current builder configuration\n\n\
+<bold>Available options:</bold> \n\
+\t<bold>--set=set</bold>\t\tset an optional argument used for some actions \n\
+\t<bold>--var=name</bold>\t\tset a variable name (for config entries) \n\
+\t<bold>--val=value</bold>\t\tset the value of the optional 'var' argument (for config entries) \n\
+\t<bold>--php=path</bold>\t\tpath of the PHP binary to use (default is '${PHPBIN}') \n\
+\t<bold>--composer=path</bold>\t\tpath of the Composer script to use (default is '${COMPOSERBIN}') \n\
+\t<bold>--sami=path</bold>\t\tpath of the Sami binary to use (default is '${SAMIBIN}') \n\
+\t<bold>--config=path</bold>\t\tpath of a builder configuration file \n\
 \t${COMMON_OPTIONS_LIST}";
+SYNOPSIS_ERROR="${0}  -[common options]  --[script options=value]  <action>  -- \n\
+\t[--var=varname] [--val=value] \n\
+\t[--php=path] [--composer=path] [--sami=path] [--config=path] \n\
+\tversion changelog self-update \n\
+\tinstall update \n\
+\tclean reset rebuild \n\
+\tdump-autoload \n\
+\tupdate-modules full-update \n\
+\trender-doc update-doc \n\
+\tconfig update-config clear-config";
 
 #### LIBRARY #############################################################################
 
 #### requireGitCmd ()
 requireGitCmd () {
-    if [ -z $GITCMD ]; then
+    if [ -z "$GITCMD" ]; then
         commanderror 'git'
     fi
     return 0
@@ -94,7 +104,7 @@ requireGitCmd () {
 #### requireComposerBin ()
 requireComposerBin () {
     local COMPOSERBIN_TMP="${COMPOSERBIN##* }"
-    if [ -z "$COMPOSERBIN" -o ! -f "$COMPOSERBIN_TMP" ]; then
+    if [ -z "$COMPOSERBIN" ] || [ ! -f "$COMPOSERBIN_TMP" ]; then
         requireProjectBuild
         installComposer
         if [ ! -f "$COMPOSERBIN_TMP" ]; then
@@ -109,13 +119,13 @@ requireSamiBin () {
     if [ -z "$SAMIPATH" ]; then
         export SAMI="${PROJECT}/${SAMIBIN}"
         export SAMIPATH="${SAMI}"
-        if [ ! -f $SAMI ]; then
-            error "Sami is not installed yet, run '--set=dev install' first!"
+        if [ ! -f "$SAMI" ]; then
+            simple_error "Sami is not installed yet, run '--set=dev install' first!"
             exit 0
         fi
     else
         export SAMI="${SAMIPATH}"
-        if [ ! -f $SAMI ]; then
+        if [ ! -f "$SAMI" ]; then
             patherror "$SAMI"
         fi
     fi
@@ -125,10 +135,10 @@ requireSamiBin () {
 #### requireProjectBuild ()
 requireProjectBuild () {
     export BUILD_DIR="${PROJECT}/${BUILDNAME}"
-    if [ ! -d $BUILD_DIR ]; then
-        mkdir $BUILD_DIR && chmod 777 $BUILD_DIR
-        if [ ! -d $BUILD_DIR ]; then
-            error "The build temporary directory can not be created at the package root! Run the script as 'sudo' (trying to build '${BUILD_DIR}')"
+    if [ ! -d "$BUILD_DIR" ]; then
+        mkdir "$BUILD_DIR" && chmod 777 "$BUILD_DIR"
+        if [ ! -d "$BUILD_DIR" ]; then
+            simple_error "The build temporary directory can not be created at the package root! Run the script as 'sudo' (trying to build '${BUILD_DIR}')"
         fi
     fi
     return 0
@@ -164,7 +174,7 @@ actionReset () {
 actionClean () {
     verecho "Launching action 'clean'"
     iexec "rm -rf ${PROJECT}/www/tmp/*"
-    if [ ! -z $FORCED ]; then
+    if [ ! -z "$FORCED" ]; then
         iexec "rm -rf ${PROJECT}/var/logs"
     fi
 }
@@ -175,20 +185,16 @@ actionInstall () {
     requireProjectBuild
     requireComposerBin
     for i in "${PROJECTREQUIREDDIRS[@]}"; do
-        if [ ! -d $i ]; then
-            mkdir $i && chmod 775 $i
-        fi
+        mkdir -p "$i" && chmod 775 "$i"
     done
-    if [ $VERBOSE ]; then
+    for i in "${PROJECTWRITABLEDIRS[@]}"; do
+        mkdir -p "$i" && chmod 777 "$i"
+    done
+    if [ "$VERBOSE" = 'false' ]; then
         iexec "${COMPOSERBIN} install -v --${SETTING}"
     else
         iexec "${COMPOSERBIN} install --${SETTING}"
     fi
-    for i in "${PROJECTWRITABLEDIRS[@]}"; do
-        if [ ! -d $i ]; then
-            mkdir $i && chmod 775 $i
-        fi
-    done
 }
 
 #### actionUpdate ()
@@ -196,7 +202,7 @@ actionUpdate () {
     verecho "Launching action 'composer update'"
     requireProjectBuild
     requireComposerBin
-    if [ $VERBOSE ]; then
+    if [ "$VERBOSE" = 'true' ]; then
         iexec "${COMPOSERBIN} update -v --${SETTING}"
     else
         iexec "${COMPOSERBIN} update --${SETTING}"
@@ -223,7 +229,7 @@ actionDocRender () {
     verecho "Launching action 'doc-render'"
     requireProjectBuild
     requireSamiBin
-    if [ ! -z "$SETTING" -a "$SETTING" = 'full' ]; then
+    if [ ! -z "$SETTING" ] && [ "$SETTING" = 'full' ]; then
         iexec "${PHPBIN} ${SAMI} render etc/vendor/sami.config.full.php"
     else
         iexec "${PHPBIN} ${SAMI} render etc/vendor/sami.config.php"
@@ -235,7 +241,7 @@ actionDocUpdate () {
     verecho "Launching action 'doc-update'"
     requireProjectBuild
     requireSamiBin
-    if [ ! -z "$SETTING" -a "$SETTING" = 'full' ]; then
+    if [ ! -z "$SETTING" ] && [ "$SETTING" = 'full' ]; then
         iexec "${PHPBIN} ${SAMI} update etc/vendor/sami.config.full.php"
     else
         iexec "${PHPBIN} ${SAMI} update etc/vendor/sami.config.php"
@@ -244,9 +250,9 @@ actionDocUpdate () {
 
 #### actionVersion ()
 actionVersion () {
-    package_version=$(sed -n 's/.*"version"*: "*\([^ ]*.*\)",/\1/p' < $PROJECT_MANIFEST)
-    if `isgitclone`
-        then echo "Carte Blanche ${package_version} `git rev-parse HEAD`"
+    package_version="$(sed -n 's/.*"version"*: "*\([^ ]*.*\)",/\1/p' < "$PROJECT_MANIFEST")"
+    if isgitclone
+        then echo "Carte Blanche ${package_version} $(git rev-parse HEAD)"
         else echo "Carte Blanche ${package_version}"
     fi
 }
@@ -254,7 +260,7 @@ actionVersion () {
 #### actionChangelog ()
 actionChangelog () {
     requireGitCmd
-    if `isgitclone`
+    if isgitclone
         then iexec "git log"
         else echo "no changelog info (not a GIT clone) ..."
     fi
@@ -263,18 +269,18 @@ actionChangelog () {
 #### actionConfig ()
 actionConfig () {
     if [ ! -z "$ARG_VAR" ]; then
-        if ! `in_array "$ARG_VAR" "${CONFIGENTRIES[@]}"`; then
-            error "Unknown configuration entry '$ARG_VAR'!"
+        if ! in_array "$ARG_VAR" "${CONFIGENTRIES[@]}"; then
+            simple_error "Unknown configuration entry '$ARG_VAR'!"
         fi
         if [ ! -z "$ARG_VAL" ]; then
-            setconfigval $CONFIGFILE "$ARG_VAR" "$ARG_VAL"
-            quietecho "setting config: ${ARG_VAR}=`getconfigval $CONFIGFILE \"$ARG_VAR\"`"
+            setconfigval "$CONFIGFILE" "$ARG_VAR" "$ARG_VAL"
+            quietecho "setting config: ${ARG_VAR}=$(getconfigval "$CONFIGFILE" "$ARG_VAR")"
         else
-            echo "${ARG_VAR}=`getconfigval $CONFIGFILE \"$ARG_VAR\"`"
+            echo "${ARG_VAR}=$(getconfigval "$CONFIGFILE" "$ARG_VAR")"
         fi
     else
         quietecho "reading config file: ${CONFIGFILE}"
-        cat $CONFIGFILE
+        cat "$CONFIGFILE"
     fi
     return 0
 }
@@ -286,7 +292,7 @@ actionUpdateConfig () {
     for key in "${CONFIGENTRIES[@]}"; do
         eval "value=\$$key"
         echo "$key : $value"
-        setconfigval $CONFIGFILE "$key" "$value"
+        setconfigval "$CONFIGFILE" "$key" "$value"
     done
     return 0
 }
@@ -294,8 +300,8 @@ actionUpdateConfig () {
 #### actionSelfUpdate ()
 actionSelfUpdate () {
     requireGitCmd
-    BRANCHNAME=`git rev-parse --abbrev-ref HEAD`
-    SF_BRANCHNAME="selfupdate-`date \"+%s\"`"
+    BRANCHNAME=$(git rev-parse --abbrev-ref HEAD)
+    SF_BRANCHNAME="selfupdate-$(date '+%s')"
     verecho "Self-updating CarteBlanche on branch $BRANCHNAME (passing by temporary branch $SF_BRANCHNAME)"
     TEMPCMD="git branch $SF_BRANCHNAME && \
         git checkout $SF_BRANCHNAME && \
@@ -305,7 +311,7 @@ actionSelfUpdate () {
         git pull && \
         git merge $SF_BRANCHNAME && \
         git branch -D $SF_BRANCHNAME";
-    if [ ! $VERBOSE ]; then
+    if [ "$VERBOSE" = 'false' ]; then
         TEMPCMD="$TEMPCMD > /dev/null"
     fi
     iexec "$TEMPCMD"
@@ -317,33 +323,32 @@ actionSelfUpdate () {
 verecho "_ go"
 
 ## get current project path and check it exists
-    export PROJECT="$WORKINGDIR"
-    export PROJECT_MANIFEST="${PROJECT}/composer.json"
-    if [ ! -f $PROJECT_MANIFEST ]; then
-        error "The 'composer.json' file can't be found in ${PROJECT} - Please run this script from the root directory of the package."
-    fi
+export PROJECT="$WORKINGDIR"
+export PROJECT_MANIFEST="${PROJECT}/composer.json"
+if [ ! -f "$PROJECT_MANIFEST" ]; then
+    simple_error "The 'composer.json' file can't be found in ${PROJECT} - Please run this script from the root directory of the package."
+fi
 
 ## get the project config file path, check it exists and read it if so
-    if [ -z $CONFIGFILE ]; then
-        export CONFIGFILE="${PROJECT}/${CONFIGNAME}"
-    fi
-    if [ -f $CONFIGFILE ]; then readconfigfile "$CONFIGFILE"; fi
+if [ -z "$CONFIGFILE" ]; then
+    export CONFIGFILE="${PROJECT}/${CONFIGNAME}"
+fi
+if [ -f "$CONFIGFILE" ]; then readconfigfile "$CONFIGFILE"; fi
 
-rearrangescriptoptions "$@"
-[ "${#SCRIPT_OPTS[@]}" -gt 0 ] && set -- "${SCRIPT_OPTS[@]}";
-[ "${#SCRIPT_ARGS[@]}" -gt 0 ] && set -- "${SCRIPT_ARGS[@]}";
-[ "${#SCRIPT_OPTS[@]}" -gt 0 -a "${#SCRIPT_ARGS[@]}" -gt 0 ] && set -- "${SCRIPT_OPTS[@]}" -- "${SCRIPT_ARGS[@]}";
-parsecommonoptions
-if $DEBUG; then library_debug "$*"; fi
+rearrange_script_options_new "$0" "$@"
+[ -n "$SCRIPT_PARAMS" ] && eval set -- "$SCRIPT_PARAMS"
+init_arguments
+parse_common_options_strict "$@"
+if [ "$DEBUG" = 'true' ]; then library_debug "$*"; fi
 
 OPTIND=1
 while getopts ":${OPTIONS_ALLOWED}" OPTION; do
     OPTARG="${OPTARG#=}"
-    case $OPTION in
+    case "$OPTION" in
     # you must keep these ones
         h|f|i|q|v|x|V|d) ;;
-        -) LONGOPTARG="`getlongoptionarg \"${OPTARG}\"`"
-            case $OPTARG in
+        -)  LONGOPTARG="$(getlongoptionarg "${OPTARG}")"
+            case "$OPTARG" in
     # you must keep these ones
                 help|man|usage|vers*|interactive|verbose|force|debug|dry-run|quiet|libvers) ;;
     # specifics
@@ -360,7 +365,7 @@ while getopts ":${OPTIONS_ALLOWED}" OPTION; do
     esac
 done
 
-getnextargument
+get_next_argument
 ACTION="${ARGUMENT}"
 
 if [ ! -z "$ACTION" ]; then
@@ -421,7 +426,7 @@ if [ ! -z "$ACTION" ]; then
 ## ?
     else error "Unknown action '$ACTION'!"; fi;
 
-else title true; usage; fi;
+else script_usage; fi;
 
 verecho "_ ok"
 
