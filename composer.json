@@ -35,6 +35,7 @@
         "carte-blanche/bundle-dirindexer": "dev-master",
         "carte-blanche/bundle-galleries": "dev-master",
         "carte-blanche/bundle-mailer": "dev-master",
+        "carte-blanche/bundle-rssviewer": "dev-master",
         "carte-blanche/bundle-unittest": "dev-master"
     },
     "repositories": [
@@ -44,6 +45,7 @@
         { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-crud" },
         { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-cms" },
         { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-gitviewer" },
+        { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-rssviewer" },
         { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-dirindexer" },
         { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-mailer" },
         { "type": "vcs", "url": "https://github.com/php-carteblanche/bundle-unittest" },
