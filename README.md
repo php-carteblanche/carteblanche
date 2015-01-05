@@ -5,6 +5,14 @@ CarteBlanche
 
 >   <http://github.com/php-carteblanche/carteblanche>
 
+----
+
+**WARNING - The *CarteBlanche* framework is still under development of its *alpha* version ;
+some works remains before version 1.0. To get informed about the first stable version, you
+can "Watch" the development by clicking the "Watch" button on the GitHub repository homepage
+at <http://github.com/php-carteblanche/carteblanche>.**
+
+----
 
 Presentation
 ------------
