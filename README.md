@@ -1,18 +1,19 @@
+----
+
+**WARNING**
+ 
+**The *CarteBlanche* framework is still under development of its *alpha* version ;
+some works remains before version 1.0. To get informed about the first stable version, click
+on the "Watch" button of the framework's repository.**
+
+----
+
 CarteBlanche
 ============
 
 >   The PHP MVC framework of Les Ateliers, simple, light-weight and easy to use for PHP developments.
 
 >   <http://github.com/php-carteblanche/carteblanche>
-
-----
-
-**WARNING - The *CarteBlanche* framework is still under development of its *alpha* version ;
-some works remains before version 1.0. To get informed about the first stable version, you
-can "Watch" the development by clicking the "Watch" button on the GitHub repository homepage
-at <http://github.com/php-carteblanche/carteblanche>.**
-
-----
 
 Presentation
 ------------
@@ -38,15 +39,15 @@ For information about installing, using or developing with *CarteBlanche*, pleas
 Author & License
 ----------------
 
->    CarteBlanche - PHP framework package
+>    CarteBlanche - The simple, light-weight and easy to use PHP framework
 
->    http://github.com/php-carteblanche/carteblanche
+>    <http://github.com/php-carteblanche/carteblanche>
 
 >    Copyright (c) 2013-2015 Pierre Cassat and contributors
 
 >    Licensed under the Apache 2.0 license.
 
->    http://github.com/php-carteblanche/carteblanche/blob/master/LICENSE
+>    <http://github.com/php-carteblanche/carteblanche/blob/master/LICENSE>
 
 >    ----
 
